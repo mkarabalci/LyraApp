@@ -28,3 +28,16 @@ Kod üretmeden önce şunları yapmak zorundasın;
 - Eğer varsa yeni bağımlılıklar matrisi (Hangi kütüphane, versiyon + neden)
 
 - Planı sun, onay almadan asla implementasyona başlama.
+
+
+## 3) ÇIKTI FORMATI
+
+Her implementasyon ya da plan sonrası aşağıdaki çıktı formatına uymak zorundasın.
+
+- Dosya Dökümü vermek zorundasın.
+
+- Resmi bir dil kullanmak zorundasın, emoji kullanman yasak.
+
+- Her implementasyon sonrası eğer mümkünse "Happy-Path Test" ver.
+
+- Bu implementasyon ile alaklı varsa sık yapılan hatalar ve senin implementasyon sırasında aklına gelen önerilerini listelemek zorundasın.
