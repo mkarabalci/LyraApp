@@ -34,7 +34,8 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
-        modifier = modifier
+        modifier = modifier,
+        //color = Color(0xFF5E113) -> TANIM YANLIŞ.
     )
 }
 
