@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,24 +40,19 @@ import com.turkcell.lyraapp.ui.theme.LyraAppTheme
 
 @Composable
 fun LoginScreen(
-    phone: String = "",
-    password: String = "",
-    passwordVisible: Boolean = false,
-    onPhoneChange: (String) -> Unit = {},
-    onPasswordChange: (String) -> Unit = {},
-    onPasswordVisibilityToggle: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {},
-    onLoginClick: () -> Unit = {},
-    onRegisterClick: () -> Unit = {},
+    state: LoginContract.State,
+    onIntent: (LoginContract.Intent) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.surface,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 24.dp)
+                .imePadding(),
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
@@ -68,28 +64,39 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            LoginPhoneField(phone = phone, onPhoneChange = onPhoneChange)
+            LoginPhoneField(
+                phone = state.phone,
+                onPhoneChange = { onIntent(LoginContract.Intent.PhoneChanged(it)) },
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             LoginPasswordField(
-                password = password,
-                passwordVisible = passwordVisible,
-                onPasswordChange = onPasswordChange,
-                onPasswordVisibilityToggle = onPasswordVisibilityToggle,
+                password = state.password,
+                passwordVisible = state.passwordVisible,
+                onPasswordChange = { onIntent(LoginContract.Intent.PasswordChanged(it)) },
+                onPasswordVisibilityToggle = { onIntent(LoginContract.Intent.TogglePasswordVisibility) },
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            LoginForgotPasswordButton(onForgotPasswordClick = onForgotPasswordClick)
+            LoginForgotPasswordButton(
+                onForgotPasswordClick = { onIntent(LoginContract.Intent.ForgotPasswordClicked) },
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            LoginPrimaryButton(onLoginClick = onLoginClick)
+            LoginPrimaryButton(
+                isLoading = state.isLoading,
+                isLoginEnabled = state.isLoginEnabled,
+                onLoginClick = { onIntent(LoginContract.Intent.LoginClicked) },
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            LoginRegisterRow(onRegisterClick = onRegisterClick)
+            LoginRegisterRow(
+                onRegisterClick = { onIntent(LoginContract.Intent.RegisterClicked) },
+            )
 
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -209,9 +216,14 @@ private fun LoginForgotPasswordButton(onForgotPasswordClick: () -> Unit) {
 }
 
 @Composable
-private fun LoginPrimaryButton(onLoginClick: () -> Unit) {
+private fun LoginPrimaryButton(
+    isLoading: Boolean,
+    isLoginEnabled: Boolean,
+    onLoginClick: () -> Unit,
+) {
     Button(
         onClick = onLoginClick,
+        enabled = isLoginEnabled && !isLoading,
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
@@ -253,7 +265,10 @@ private fun LoginRegisterRow(onRegisterClick: () -> Unit) {
 @Composable
 private fun LoginScreenPreviewLight() {
     LyraAppTheme(darkTheme = false) {
-        LoginScreen()
+        LoginScreen(
+            state = LoginContract.State(),
+            onIntent = {},
+        )
     }
 }
 
@@ -261,6 +276,9 @@ private fun LoginScreenPreviewLight() {
 @Composable
 private fun LoginScreenPreviewDark() {
     LyraAppTheme(darkTheme = true) {
-        LoginScreen()
+        LoginScreen(
+            state = LoginContract.State(),
+            onIntent = {},
+        )
     }
 }
