@@ -47,6 +47,8 @@ class LoginViewModel @Inject constructor(
         }
     }
     private fun login() {
+        val state = _state.value
+        if (!state.isLoginEnabled || state.isLoading) return
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             authRepository.login(_state.value.phone, _state.value.password)

@@ -12,4 +12,14 @@ class FakeAuthRepository @Inject constructor() : AuthRepository {
             Result.failure(IllegalArgumentException("Şifre boş olamaz."))
         }
     }
+
+    override suspend fun register(
+        firstName: String,
+        lastName: String,
+        phone: String,
+        password: String,
+    ): Result<Unit> {
+        delay(1500)
+        return Result.success(Unit)
+    }
 }

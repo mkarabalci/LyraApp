@@ -1,4 +1,4 @@
-package com.turkcell.lyraapp.ui.login
+package com.turkcell.lyraapp.ui.register
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,9 +13,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun LoginRoute(
-    onNavigateToRegister: () -> Unit = {},
-    viewModel: LoginViewModel = hiltViewModel(),
+fun RegisterRoute(
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit,
+    viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -23,19 +24,15 @@ fun LoginRoute(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is LoginContract.Effect.NavigateToHome ->
-                    snackbarHostState.showSnackbar("Giris basarili — navigasyon henuz eklenmedi")
-                is LoginContract.Effect.NavigateToForgotPassword ->
-                    snackbarHostState.showSnackbar("Sifremi unuttum — yaklinda")
-                is LoginContract.Effect.NavigateToRegister -> onNavigateToRegister()
-                is LoginContract.Effect.ShowError ->
-                    snackbarHostState.showSnackbar(effect.message)
+                is RegisterContract.Effect.NavigateToLogin -> onNavigateToLogin()
+                is RegisterContract.Effect.NavigateToHome -> onNavigateToHome()
+                is RegisterContract.Effect.ShowError -> snackbarHostState.showSnackbar(effect.message)
             }
         }
     }
 
     Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { paddingValues ->
-        LoginScreen(
+        RegisterScreen(
             state = state,
             onIntent = viewModel::onIntent,
             modifier = Modifier.padding(paddingValues),
