@@ -41,3 +41,17 @@ Her implementasyon ya da plan sonrası aşağıdaki çıktı formatına uymak zo
 - Her implementasyon sonrası eğer mümkünse "Happy-Path Test" ver.
 
 - Bu implementasyon ile alaklı varsa sık yapılan hatalar ve senin implementasyon sırasında aklına gelen önerilerini listelemek zorundasın.
+
+---
+
+## 4) MİMARİ REFERANSLAR
+
+### 4.1) MVI Uygulamaları
+
+Sunum katmanı **MVI** ile yazılır. Yeni bir ekran/feature MVI ile kodlanırken aşağıdaki dökümanlar BAĞLAYICI referanstır ve bunlara uymak ZORUNLUDUR:
+
+- `docs/architecture/mvi-overview.md` — veri akışı, katman sorumlulukları, Route/Screen kuralları
+- `docs/architecture/mvi-contracts.md` — State / Intent / Effect kodlama kuralları
+- `docs/architecture/mvi-viewmodel-rules.md` — ViewModel kodlama kuralları
+
+Bu dokümanlar, projenin tek MVI referans implementasyonu olan `Login` (LoginContract + LoginViewModel + LoginRoute + LoginScreen) temel alınarak oluşturulmuştur. Yeni ekranlar bu kalıptan sapmadan üretilir. Bu referansı bozacak bir sapma gerekiyorsa DUR ve EK ONAY iste 

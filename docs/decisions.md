@@ -41,7 +41,15 @@
 
 - Sebep: Tek yönlü veri akışı, test edilebilirlik, yan etkilerin (navigasyon, snackbar) UI katmanından ayrılması. `LoginContract` nesnesi State / Intent / Effect'i tek dosyada tutar.
 
-- Notlar: `LoginRoute` stateful kapsayıcıdır (ViewModel, NavController). `LoginScreen` saf fonksiyondur; ViewModel ve navigasyon bilmez.
+- Notlar: `LoginRoute` stateful kapsayıcıdır (ViewModel, Scaffold, effect dinleme). `LoginScreen` saf fonksiyondur; ViewModel ve navigasyon bilmez.
+
+- Kesinleşmiş Uygulama Kuralları (10.06.2026):
+  - `error: String?` State'e eklenmez; hatalar `Effect.ShowError` ile iletilir.
+  - Türetilmiş alanlar (`isLoginEnabled`) State'e dahil edilir; ViewModel `updateForm()` ile atomik günceller.
+  - Form alanı değişiklikleri `updateForm()` + `isFormValid()` kalıbını kullanır.
+  - Screen Column'unda `.imePadding()` zorunludur.
+  - Route, Scaffold `paddingValues`'u `Modifier.padding()` ile Screen'e iletmek zorundadır.
+  - Detay: `docs/architecture/` dosyaları.
 
 ---
 
@@ -78,4 +86,15 @@
 
 - Son Güncelleme Tarihi: 10.06.2026
 
-- Sebep: AGP 9.x "built-in Kotlin" özelliği, KSP'nin ürettiği kaynak dizinlerini `kotlin.sourceSets` DSL ile eklemesine izin vermez. Bu bayrak AGP'nin kendi önerisidir; KSP'nin AGP 9.x resmi desteği iyileştikçe kaldırılabilir.
+- Sebep: AGP 9 built-in Kotlin kullanır; KSP'nin ürettiği kaynak dizinlerini eklemesi bu bayrak olmadan derlemeyi kırar. Bayrak deneysel (experimental) olarak işaretlidir ancak gereklidir.
+
+---
+
+
+### Backend Hazır Değilken Veri Katmanı
+
+- Karar: **Stub repository** deseni — Repository interface + `Fake<X>Repository` implementasyonu.
+
+- Son Güncelleme Tarihi: 10.06.2026
+
+- Sebep: Backend REST API sözleşmesi tanımlı değil (`agents.md`  uydurmak yasak). Gerçek API geldiğinde yalnızca implementasyon ve DI bağlaması değişir; ViewModel/Contract etkilenmez.
