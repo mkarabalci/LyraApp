@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun LoginRoute(
     onNavigateToRegister: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -23,8 +24,7 @@ fun LoginRoute(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is LoginContract.Effect.NavigateToHome ->
-                    snackbarHostState.showSnackbar("Giris basarili — navigasyon henuz eklenmedi")
+                is LoginContract.Effect.NavigateToHome -> onNavigateToHome()
                 is LoginContract.Effect.NavigateToForgotPassword ->
                     snackbarHostState.showSnackbar("Sifremi unuttum — yaklinda")
                 is LoginContract.Effect.NavigateToRegister -> onNavigateToRegister()

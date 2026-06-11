@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.turkcell.lyraapp.ui.home.HomeRoute
 import com.turkcell.lyraapp.ui.login.LoginRoute
 import com.turkcell.lyraapp.ui.register.RegisterRoute
 
@@ -25,6 +26,12 @@ fun AppNavigation(
                         launchSingleTop = true
                     }
                 },
+                onNavigateToHome = {
+                    navController.navigate(LyraDestination.Home.route) {
+                        popUpTo(LyraDestination.Login.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
             )
         }
         composable(LyraDestination.Register.route) {
@@ -36,9 +43,15 @@ fun AppNavigation(
                     }
                 },
                 onNavigateToHome = {
-                    // TODO: Ev ekrani hazir oldigunda buraya navigasyon eklenecek
+                    navController.navigate(LyraDestination.Home.route) {
+                        popUpTo(LyraDestination.Login.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 },
             )
+        }
+        composable(LyraDestination.Home.route) {
+            HomeRoute()
         }
     }
 }
