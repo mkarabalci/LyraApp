@@ -1,4 +1,4 @@
-package com.turkcell.lyraapp.data.repository
+package com.turkcell.lyraapp.data.auth
 
 interface AuthRepository {
     suspend fun login(phone: String, password: String): Result<Unit>

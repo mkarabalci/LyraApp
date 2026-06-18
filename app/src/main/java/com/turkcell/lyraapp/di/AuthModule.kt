@@ -1,7 +1,7 @@
 package com.turkcell.lyraapp.di
 
-import com.turkcell.lyraapp.data.repository.AuthRepository
-import com.turkcell.lyraapp.data.repository.FakeAuthRepository
+import com.turkcell.lyraapp.data.auth.AuthRepository
+import com.turkcell.lyraapp.data.auth.FakeAuthRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

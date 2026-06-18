@@ -1,4 +1,4 @@
-package com.turkcell.lyraapp.data.repository
+package com.turkcell.lyraapp.data.auth
 
 import kotlinx.coroutines.delay
 import javax.inject.Inject
