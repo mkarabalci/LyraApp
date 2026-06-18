@@ -15,7 +15,7 @@ import com.turkcell.lyraapp.ui.library.LibraryScreen
 import com.turkcell.lyraapp.ui.login.LoginRoute
 import com.turkcell.lyraapp.ui.profile.ProfileScreen
 import com.turkcell.lyraapp.ui.register.RegisterRoute
-import com.turkcell.lyraapp.ui.search.SearchScreen
+import com.turkcell.lyraapp.ui.search.SearchRoute
 
 @Composable
 fun AppNavigation(
@@ -82,7 +82,7 @@ fun AppNavigation(
                 )
             }
             composable(LyraDestination.Home.route) { HomeRoute() }
-            composable(LyraDestination.Search.route) { SearchScreen() }
+            composable(LyraDestination.Search.route) { SearchRoute() }
             composable(LyraDestination.Library.route) { LibraryScreen() }
             composable(LyraDestination.Favorites.route) { FavoritesScreen() }
             composable(LyraDestination.Profile.route) { ProfileScreen() }
