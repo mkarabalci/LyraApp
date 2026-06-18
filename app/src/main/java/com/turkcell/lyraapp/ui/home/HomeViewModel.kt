@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.turkcell.lyraapp.data.home.HomeRepository
 import com.turkcell.lyraapp.data.home.PlaylistData
 import com.turkcell.lyraapp.data.home.TrackData
+import com.turkcell.lyraapp.data.theme.ThemeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
+    private val themeRepository: ThemeRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeContract.State())
@@ -29,11 +31,23 @@ class HomeViewModel @Inject constructor(
 
     init {
         _state.update { it.copy(greeting = computeGreeting(), isLoading = true) }
+        observeTheme()
         loadHomeData()
     }
 
     fun onIntent(intent: HomeContract.Intent) {
+        when (intent) {
+            is HomeContract.Intent.DarkModeToggled ->
+                viewModelScope.launch { themeRepository.toggle() }
+        }
+    }
 
+    private fun observeTheme() {
+        viewModelScope.launch {
+            themeRepository.isDark.collect { isDark ->
+                _state.update { it.copy(isDarkMode = isDark) }
+            }
+        }
     }
 
     private fun loadHomeData() {

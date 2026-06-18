@@ -25,9 +25,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -62,7 +64,12 @@ fun HomeScreen(
                 .imePadding(),
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            GreetingRow(greeting = state.greeting, userInitials = state.userInitials)
+            GreetingRow(
+                greeting = state.greeting,
+                userInitials = state.userInitials,
+                isDarkMode = state.isDarkMode,
+                onDarkModeToggle = { onIntent(HomeContract.Intent.DarkModeToggled) },
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Ne dinlemek istersin?",
@@ -85,7 +92,12 @@ fun HomeScreen(
 }
 
 @Composable
-private fun GreetingRow(greeting: String, userInitials: String) {
+private fun GreetingRow(
+    greeting: String,
+    userInitials: String,
+    isDarkMode: Boolean,
+    onDarkModeToggle: () -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -97,15 +109,17 @@ private fun GreetingRow(greeting: String, userInitials: String) {
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = Icons.Default.DarkMode,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.size(24.dp),
-            )
+            IconButton(onClick = onDarkModeToggle) {
+                Icon(
+                    imageVector = if (isDarkMode) Icons.Default.LightMode else Icons.Default.DarkMode,
+                    contentDescription = if (isDarkMode) "Aydınlık mod" else "Karanlık mod",
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
             UserAvatar(initials = userInitials)
         }
     }

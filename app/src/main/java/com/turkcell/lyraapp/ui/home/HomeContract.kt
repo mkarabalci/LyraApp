@@ -19,12 +19,15 @@ object HomeContract {
         val isLoading: Boolean = false,
         val greeting: String = "",
         val userInitials: String = "ZK",
+        val isDarkMode: Boolean = false,
         val quickPlayPlaylists: List<PlaylistItem> = emptyList(),
         val recentlyPlayed: List<TrackItem> = emptyList(),
         val recommendedPlaylists: List<PlaylistItem> = emptyList(),
     )
 
-    sealed class Intent
+    sealed class Intent {
+        object DarkModeToggled : Intent()
+    }
 
     sealed class Effect {
         data class ShowError(val message: String) : Effect()
